@@ -4,35 +4,47 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Register extends AppCompatActivity {
 
-    private Button btnSignUp, btnSignIn;
+    private FloatingActionButton btnSignUp;
     private EditText etEmail, etPassword;
+    private TextView labelSignIn;
 
 
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.activity_main);
+
+
         mAuth = FirebaseAuth.getInstance();
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
+        labelSignIn = findViewById(R.id.labelSignIn);
+
         btnSignUp = findViewById(R.id.btnSignUp);
-        btnSignIn = findViewById(R.id.btnSignIn);
+        //btnSignIn = findViewById(R.id.btnSignIn);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,13 +53,17 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        labelSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 redirect_SignIn();
             }
         });
 
+    }
+
+    public void OpenSignupPage(View view) {
+        startActivity(new Intent(Register.this,SignIn.class));
     }
 
     private void signUp(){
